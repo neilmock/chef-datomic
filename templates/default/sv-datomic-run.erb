@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd <%= @options[:dir] %>
+exec 2>&1
+exec chpst -u <%= @options[:user] %> <%= @options[:dir] %>/bin/datomic
