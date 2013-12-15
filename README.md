@@ -20,6 +20,8 @@ Installs and configures Datomic.
 ## Attributes
 
 * `node["datomic"]["dir"]` - Directory to install into.
+* `node["datomic"]["data_dir"]` - Data directory.
+* `node["datomic"]["log_dir"]` - Log directory.
 * `node["datomic"]["version"]` - Version of Datomic to install.
 * `node["datomic"]["license_key"]` - If using Datomic Pro, a license key is needed.
 * `node["datomic"]["url"]` - URL to download Datomic.

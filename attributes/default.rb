@@ -1,4 +1,6 @@
 default["datomic"]["dir"] = "/opt/datomic"
+default["datomic"]["data_dir"] = "/var/lib/datomic"
+default["datomic"]["log_dir"] = "/var/log/datomic"
 default["datomic"]["version"] = "0.9.4331"
 default["datomic"]["license_key"] = ""
 default["datomic"]["url"] = "https://my.datomic.com/downloads/#{(node["datomic"]["license_key"].empty? ? "free" : "pro")}/#{node["datomic"]["version"]}"

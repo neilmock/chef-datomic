@@ -13,6 +13,10 @@ user node["datomic"]["username"] do
   shell "/bin/false"
   gid node["datomic"]["username"]
 end
+
+directory node["datomic"]["data_dir"] do
+  owner node["datomic"]["username"]
+  group node["datomic"]["username"]
 end
 
 remote_file ::File.join(Chef::Config[:file_cache_path], "datomic-#{license_type}-#{version}.zip") do
@@ -53,6 +57,8 @@ template ::File.join(node["datomic"]["dir"], "config/transactor.properties") do
     :memory_index_threshold => node["datomic"]["memory_index_threshold"],
     :memory_index_max       => node["datomic"]["memory_index_max"],
     :object_cache_max       => node["datomic"]["object_cache_max"],
+    :data_dir               => node["datomic"]["data_dir"],
+    :log_dir                => node["datomic"]["log_dir"],
     :write_concurrency      => node["datomic"]["write_concurrency"],
     :read_concurrency       => node["datomic"]["read_concurrency"]
   )

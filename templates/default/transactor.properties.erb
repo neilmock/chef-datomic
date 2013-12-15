@@ -45,10 +45,10 @@ object-cache-max=<%= @object_cache_max %>
 
 # Data directory is used for dev: and free: storage, and
 # as a temporary directory for all storages.
-# data-dir=data
+data-dir=<%= @data_dir %>
 
 # Transactor will log here, see bin/logback.xml to configure logging.
-# log-dir=log
+log-dir==<%= @log_dir %>
 
 # Transactor will write process pid here on startup
 # pid-file=transactor.pid
