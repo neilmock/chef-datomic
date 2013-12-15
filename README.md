@@ -14,6 +14,7 @@ Installs and configures Datomic.
 ### Cookbooks
 
 * java
+* riak
 * runit
 
 ## Attributes
@@ -29,7 +30,7 @@ Installs and configures Datomic.
 * `node["datomic"]["port"]` - Port to run Datomic on.
 * `node["datomic"]["riak_host"]` - Riak host.
 * `node["datomic"]["riak_port"]` - Riak Protocol Buffers port.
-* `node["datomic"]["riak_interface"]` - Riak interface (`protobuf`, `host`).
+* `node["datomic"]["riak_interface"]` - Riak interface (`protobuf`, `http`).
 * `node["datomic"]["riak_bucket"]` - Riak bucket to store Datomic configuration.
 * `node["datomic"]["memory_index_threshold"]` - Index memory threshold.
 * `node["datomic"]["memory_index_max"]` - Index memory maximum.

@@ -15,7 +15,7 @@ user node["datomic"]["username"] do
 end
 end
 
-remote_file "#{Chef::Config[:file_cache_path]}/datomic-#{license_type}-#{version}.zip" do
+remote_file ::File.join(Chef::Config[:file_cache_path], "datomic-#{license_type}-#{version}.zip") do
   source node["datomic"]["url"]
   owner node["datomic"]["username"]
   group node["datomic"]["username"]
@@ -38,7 +38,7 @@ link node["datomic"]["dir"] do
   group node["datomic"]["username"]
 end
 
-template "#{node["datomic"]["dir"]}/config/transactor.properties" do
+template ::File.join(node["datomic"]["dir"], "config/transactor.properties") do
   mode "0644"
   source "transactor.properties.erb"
   variables(
@@ -56,19 +56,30 @@ template "#{node["datomic"]["dir"]}/config/transactor.properties" do
     :write_concurrency      => node["datomic"]["write_concurrency"],
     :read_concurrency       => node["datomic"]["read_concurrency"]
   )
-  notifies :restart, "service[datomic]", :delayed
+  notifies :restart, "service[datomic-transactor]", :delayed
 end
 
-runit_service "datomic" do
-  action [ :enable, :start ]
-  default_logger true
-  options ({
-    :dir  => node["datomic"]["dir"],
-    :user => node["datomic"]["username"]
-  })
+ruby_block "configure-zookeeper-cluster-in-riak" do
+  block do
+    Riak.configure_zookeeper_cluster(
+      node["riak"]["config"]["riak_core"]["http"].keys.first.gsub(/__string_/, ""),
+      node["riak"]["config"]["riak_core"]["http"].values.last,
+      node["datomic"]["riak_bucket"],
+      [ "10.0.2.15:2181" ]
+    )
+  end
+  notifies :restart, "service[datomic-transactor]", :delayed
+
+  only_if do
+    node["datomic"]["protocol"] == "riak" && !Riak.zookeeper_cluster_configured?(
+      node["riak"]["config"]["riak_core"]["http"].keys.first.gsub(/__string_/, ""),
+      node["riak"]["config"]["riak_core"]["http"].values.last,
+      node["datomic"]["riak_bucket"]
+    )
+  end
 end
 
-runit_service "transactor" do
+runit_service "datomic-transactor" do
   action [ :enable, :start ]
   default_logger true
   owner node["datomic"]["username"]
