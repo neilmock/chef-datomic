@@ -4,9 +4,15 @@ include_recipe "runit"
 license_type  = (node["datomic"]["license_key"].empty? ? "free" : "pro")
 version       = node["datomic"]["version"]
 
+group node["datomic"]["username"] do
+  action :create
+end
+
 user node["datomic"]["username"] do
   system true
   shell "/bin/false"
+  gid node["datomic"]["username"]
+end
 end
 
 remote_file "#{Chef::Config[:file_cache_path]}/datomic-#{license_type}-#{version}.zip" do
@@ -21,6 +27,7 @@ bash "install-datomic" do
   cwd Chef::Config[:file_cache_path]
   code <<-EOH
     unzip datomic-#{license_type}-#{version}.zip -d /opt
+    chown -R #{node["datomic"]["username"]}:#{node["datomic"]["username"]} #{node["datomic"]["dir"]}-#{license_type}-#{version}
   EOH
   not_if { ::File.exists?("/opt/datomic-#{license_type}-#{version}") }
 end
@@ -64,6 +71,8 @@ end
 runit_service "transactor" do
   action [ :enable, :start ]
   default_logger true
+  owner node["datomic"]["username"]
+  group node["datomic"]["username"]
   options ({
     :dir  => node["datomic"]["dir"],
     :user => node["datomic"]["username"]
