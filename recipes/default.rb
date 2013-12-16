@@ -71,7 +71,7 @@ ruby_block "configure-zookeeper-cluster-in-riak" do
       node["riak"]["config"]["riak_core"]["http"].keys.first.gsub(/__string_/, ""),
       node["riak"]["config"]["riak_core"]["http"].values.last,
       node["datomic"]["riak_bucket"],
-      [ "10.0.2.15:2181" ]
+      [ "#{node["zookeeper"]["host"]}:#{node["zookeeper"]["port"]}" ]
     )
   end
   notifies :restart, "service[datomic-transactor]", :delayed

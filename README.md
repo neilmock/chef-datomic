@@ -16,6 +16,7 @@ Installs and configures Datomic.
 * java
 * riak
 * runit
+* zookeeper
 
 ## Attributes
 
