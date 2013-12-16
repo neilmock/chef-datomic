@@ -38,8 +38,10 @@ Installs and configures Datomic.
 * `node["datomic"]["memory_index_threshold"]` - Index memory threshold.
 * `node["datomic"]["memory_index_max"]` - Index memory maximum.
 * `node["datomic"]["object_cache_max"]` - Object cache maximum.
+* `node["datomic"]["encrypt_channel"]` - Enable SSL between peers and transactor.
 * `node["datomic"]["write_concurrency"]` - Write concurrency.
 * `node["datomic"]["read_concurrency"]` - Read concurrency (`2x` write concurrency).
+* `node["datomic"]["heartbeat_interval"]` - Transactor heartbeat interval.
 
 ## Recipes
 

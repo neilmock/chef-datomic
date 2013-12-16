@@ -16,5 +16,7 @@ default["datomic"]["riak_bucket"] = "datomic"
 default["datomic"]["memory_index_threshold"] = "32m"
 default["datomic"]["memory_index_max"] = "128m"
 default["datomic"]["object_cache_max"] = "128m"
+default["datomic"]["encrypt_channel"] = true
 default["datomic"]["write_concurrency"] = 4
 default["datomic"]["read_concurrency"] = 8
+default["datomic"]["heartbeat_interval"] = 5000

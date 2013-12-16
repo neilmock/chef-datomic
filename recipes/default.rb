@@ -57,10 +57,12 @@ template ::File.join(node["datomic"]["dir"], "config/transactor.properties") do
     :memory_index_threshold => node["datomic"]["memory_index_threshold"],
     :memory_index_max       => node["datomic"]["memory_index_max"],
     :object_cache_max       => node["datomic"]["object_cache_max"],
+    :encrypt_channel        => node["datomic"]["encrypt_channel"],
     :data_dir               => node["datomic"]["data_dir"],
     :log_dir                => node["datomic"]["log_dir"],
     :write_concurrency      => node["datomic"]["write_concurrency"],
-    :read_concurrency       => node["datomic"]["read_concurrency"]
+    :read_concurrency       => node["datomic"]["read_concurrency"],
+    :heartbeat_interval     => node["datomic"]["heartbeat_interval"]
   )
   notifies :restart, "service[datomic-transactor]", :delayed
 end
