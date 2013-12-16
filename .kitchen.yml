@@ -25,4 +25,6 @@ suites:
   run_list:
   - recipe[minitest-handler]
   - recipe[datomic]
-  attributes: {}
+  attributes:
+    datomic:
+      protocol: free
