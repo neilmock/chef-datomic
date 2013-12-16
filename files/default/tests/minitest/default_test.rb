@@ -7,6 +7,10 @@ describe "datomic::default" do
     directory(node["datomic"]["dir"]).must_exist
   end
 
+  it "creates the data directory" do
+    directory(node["datomic"]["data_dir"]).must_exist
+  end
+
   it "creates the transactor configuration file" do
     file("#{node["datomic"]["dir"]}/config/transactor.properties").must_exist
   end
@@ -15,11 +19,7 @@ describe "datomic::default" do
     user("datomic").must_exist
   end
 
-  it "runs datomic as a daemon" do
-    service("datomic").must_be_running
-  end
-
   it "runs transactor as a daemon" do
-    service("transactor").must_be_running
+    service("datomic-transactor").must_be_running
   end
 end
