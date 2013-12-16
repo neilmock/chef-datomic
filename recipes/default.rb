@@ -42,6 +42,11 @@ link node["datomic"]["dir"] do
   group node["datomic"]["username"]
 end
 
+template ::File.join(node["datomic"]["dir"], "bin/transactor") do
+  mode "0775"
+  source "transactor.erb"
+end
+
 template ::File.join(node["datomic"]["dir"], "config/transactor.properties") do
   mode "0644"
   source "transactor.properties.erb"
