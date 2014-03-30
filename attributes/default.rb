@@ -21,6 +21,11 @@ default["datomic"]["riak_port"] = nil
 default["datomic"]["riak_interface"] = nil
 default["datomic"]["riak_bucket"] = nil
 
+default["datomic"]["sql_url"] = nil # "jdbc:postgresql://localhost:5432/datomic"
+default["datomic"]["sql_user"] = nil # "datomic"
+default["datomic"]["sql_password"] = nil # "datomic"
+default["datomic"]["sql_driver_class"] = nil # "org.postgresql.Driver"
+
 default["datomic"]["memory_index_threshold"] = "32m"
 default["datomic"]["memory_index_max"] = "128m"
 default["datomic"]["object_cache_max"] = "128m"
