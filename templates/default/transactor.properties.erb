@@ -12,14 +12,30 @@ license-key=<%= @license_key %>
 ################################################################
 # See http://docs.datomic.com/storage.html
 
-<% unless @riak_host %># <% end %>riak-host=<%= @riak_host %>
-<% unless @riak_port %># <% end %>riak-port=<%= @riak_port %>
-<% unless @riak_bucket %># <% end %>riak-bucket=<%= @riak_bucket %>
-<% unless @riak_interface %># <% end %>riak-interface=<%= @riak_interface %>
-<% unless @sql_url %># <% end %>sql-url=<%= @sql_url %>
-<% unless @sql_user %># <% end %>sql-user=<%= @sql_user %>
-<% unless @sql_password %># <% end %>sql-password=<%= @sql_password %>
-<% unless @sql_driver_class %># <% end %>sql-driver-class=<%= @sql_driver_class %>
+<% if @riak_host -%>
+riak-host=<%= @riak_host %>
+<% end -%>
+<% if @riak_port -%>
+riak-port=<%= @riak_port %>
+<% end -%>
+<% if @riak_bucket -%>
+riak-bucket=<%= @riak_bucket %>
+<% end -%>
+<% if @riak_interface -%>
+riak-interface=<%= @riak_interface %>
+<% end -%>
+<% if @sql_url -%>
+sql-url=<%= @sql_url %>
+<% end -%>
+<% if @sql_user -%>
+sql-user=<%= @sql_user %>
+<% end -%>
+<% if @sql_password -%>
+sql-password=<%= @sql_password %>
+<% end -%>
+<% if @sql_driver_class -%>
+sql-driver-class=<%= @sql_driver_class %>
+<% end -%>
 
 
 ################################################################
