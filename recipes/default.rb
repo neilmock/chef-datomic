@@ -89,9 +89,11 @@ end
 
 ruby_block "configure-zookeeper-cluster-in-riak" do
   block do
+    ip_address, port = Riak.extract_riak_ip_and_port(node["riak"]["config"]["riak_core"]["http"])
+
     Riak.configure_zookeeper_cluster(
-      node["riak"]["config"]["riak_core"]["http"].keys.first.gsub(/__string_/, ""),
-      node["riak"]["config"]["riak_core"]["http"].values.last,
+      ip_address,
+      port,
       node["datomic"]["riak_bucket"],
       [ "#{node["zookeeper"]["host"]}:#{node["zookeeper"]["port"]}" ]
     )
@@ -99,9 +101,11 @@ ruby_block "configure-zookeeper-cluster-in-riak" do
   notifies :restart, "service[datomic-transactor]", :delayed
 
   only_if do
+    ip_address, port = Riak.extract_riak_ip_and_port(node["riak"]["config"]["riak_core"]["http"])
+
     node["datomic"]["protocol"] == "riak" && !Riak.zookeeper_cluster_configured?(
-      node["riak"]["config"]["riak_core"]["http"].keys.first.gsub(/__string_/, ""),
-      node["riak"]["config"]["riak_core"]["http"].values.last,
+      ip_address,
+      port,
       node["datomic"]["riak_bucket"]
     )
   end
