@@ -7,6 +7,9 @@ version = node["datomic"]["version"]
 license_type = node["datomic"]["license_key"].empty? ? "free" : "pro"
 license_email = node["datomic"]["license_email"]
 license_download_key = node["datomic"]["license_download_key"]
+
+package "unzip" do
+  action :install
 end
 
 group node["datomic"]["username"] do
