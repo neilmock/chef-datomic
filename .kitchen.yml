@@ -1,30 +1,54 @@
----
 driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: true
+  vagrantfile_erb: Vagrantfile.erb
+  customize:
+    memory: 2048
+
+provisioner:
+  name: chef_solo
 
 platforms:
 - name: ubuntu-12.04
-  driver_config:
-    box: opscode-ubuntu-12.04
-    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box
-    vagrantfile_erb: Vagrantfile.erb
-    customize:
-      memory: 1024
   run_list:
   - recipe[apt]
-- name: centos-6.4
-  driver_config:
-    box: opscode-centos-6.5
-    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box
-    vagrantfile_erb: Vagrantfile.erb
-    customize:
-      memory: 1024
-  run_list:
-  - recipe[yum::epel]
-suites:
-- name: default
-  run_list:
   - recipe[minitest-handler]
+- name: centos-6.5
+  run_list:
+  - recipe[yum-epel]
+  - recipe[minitest-handler]
+
+suites:
+- name: dev
+  run_list:
   - recipe[datomic]
   attributes:
     datomic:
-      protocol: free
+      protocol: dev
+- name: riak
+  run_list:
+  - recipe[riak]
+  - recipe[datomic]
+  attributes:
+    datomic:
+      license_key: <%= ENV["DATOMIC_LICENSE_KEY"].nil? ? "" : ENV["DATOMIC_LICENSE_KEY"] %>
+      license_email: <%= ENV["DATOMIC_LICENSE_EMAIL"].nil? ? "" : ENV["DATOMIC_LICENSE_EMAIL"] %>
+      license_download_key: <%= ENV["DATOMIC_LICENSE_DOWNLOAD_KEY"].nil? ? "" : ENV["DATOMIC_LICENSE_DOWNLOAD_KEY"] %>
+      protocol: riak
+      riak_host: "127.0.0.1"
+      riak_port: 8087
+      riak_interface: "protobuf"
+      riak_bucket: "datomic"
+- name: sql
+  run_list:
+  - recipe[datomic]
+  attributes:
+    datomic:
+      license_key: <%= ENV["DATOMIC_LICENSE_KEY"].nil? ? "" : ENV["DATOMIC_LICENSE_KEY"] %>
+      license_email: <%= ENV["DATOMIC_LICENSE_EMAIL"].nil? ? "" : ENV["DATOMIC_LICENSE_EMAIL"] %>
+      license_download_key: <%= ENV["DATOMIC_LICENSE_DOWNLOAD_KEY"].nil? ? "" : ENV["DATOMIC_LICENSE_DOWNLOAD_KEY"] %>
+      protocol: sql
+      sql_url: jdbc:postgresql://localhost:5432/datomic
+      sql_user: datomic
+      sql_password: datomic
+      sql_driver_class: org.postgresql.Driver
