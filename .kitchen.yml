@@ -36,7 +36,7 @@ suites:
       license_download_key: <%= ENV["DATOMIC_LICENSE_DOWNLOAD_KEY"].nil? ? "" : ENV["DATOMIC_LICENSE_DOWNLOAD_KEY"] %>
       protocol: riak
       riak_host: "127.0.0.1"
-      riak_port: "8087"
+      riak_port: 8087
       riak_interface: "protobuf"
       riak_bucket: "datomic"
 - name: sql

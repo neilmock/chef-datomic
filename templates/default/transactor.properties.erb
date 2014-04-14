@@ -17,7 +17,7 @@ license-key=<%= @license_key %>
 <% unless @riak_host.empty? -%>
 riak-host=<%= @riak_host %>
 <% end -%>
-<% unless @riak_port.empty? -%>
+<% unless @riak_port -%>
 riak-port=<%= @riak_port %>
 <% end -%>
 <% unless @riak_bucket.empty? -%>

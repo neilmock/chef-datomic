@@ -16,8 +16,8 @@ default["datomic"]["host"] = "127.0.0.1"
 default["datomic"]["port"] = 4334
 
 default["datomic"]["riak_host"] = ""
-default["datomic"]["riak_port"] = ""
-default["datomic"]["riak_interface"] = ""
+default["datomic"]["riak_port"] = 8087
+default["datomic"]["riak_interface"] = "protobuf"
 default["datomic"]["riak_bucket"] = ""
 
 default["datomic"]["sql_url"] = ""
