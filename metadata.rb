@@ -6,9 +6,10 @@ version           "0.1.0"
 recipe            "datomic", "Installs and configures Datomic"
 name              "datomic"
 
-%w{ java riak runit zookeeper }.each do |d|
-  depends d
-end
+depends "java", "~> 1.22.0"
+depends "riak", "~> 2.4.7"
+depends "runit", "~> 1.5.10"
+depends "zookeeper", "~> 0.1.0"
 
 %w{ ubuntu rhel scientific redhat centos }.each do |os|
   supports os

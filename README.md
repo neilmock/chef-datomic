@@ -20,43 +20,50 @@ Installs and configures Datomic.
 
 ## Attributes
 
-Directories:
+__Directories__:
 
 * `node["datomic"]["dir"]` - Directory to install into.
 * `node["datomic"]["data_dir"]` - Data directory.
 * `node["datomic"]["log_dir"]` - Log directory.
 
-Download information:
+__Download information__:
 
 * `node["datomic"]["version"]` - Version of Datomic to install.
 * `node["datomic"]["checksum"]` - Checksum for the Datomic archive.
-* `node["datomic"]["license_key"]` - If using Datomic Pro, a license key is needed.
-* `node["datomic"]["license_email"]` - If using Datomic Pro, the email associated with your license.
-* `node["datomic"]["license_download_key"]` - If using Datomic Pro, the download key. See https://my.datomic.com/account.
-* `node["datomic"]["url"]` - URL to download Datomic. Constructed automatically unless you override it.
+* `node["datomic"]["license_key"]` - If using Datomic Pro, a license key is
+  needed.
+* `node["datomic"]["license_email"]` - If using Datomic Pro, the email
+  associated with your license.
+* `node["datomic"]["license_download_key"]` - If using Datomic Pro, the
+  download key. See https://my.datomic.com/account.
+* `node["datomic"]["url"]` - URL to download Datomic. Constructed
+  automatically unless you override it.
 
-Basic Datomic configuration:
+__Datomic configuration__:
 
 * `node["datomic"]["username"]` - System user for the Datomic services.
 * `node["datomic"]["protocol"]` - Datomic protocol (`riak`)
 * `node["datomic"]["host"]` - Address to bind the Datomic service.
 * `node["datomic"]["port"]` - Port to run Datomic on.
 
-Riak configuration:
+__Riak configuration__:
 
 * `node["datomic"]["riak_host"]` - Riak host.
 * `node["datomic"]["riak_port"]` - Riak Protocol Buffers port.
 * `node["datomic"]["riak_interface"]` - Riak interface (`protobuf`, `http`).
-* `node["datomic"]["riak_bucket"]` - Riak bucket to store Datomic configuration.
+* `node["datomic"]["riak_bucket"]` - Riak bucket to store Datomic
+  configuration.
 
-More Datomic configuration:
+__Advanced Datomic configuration__:
 
 * `node["datomic"]["memory_index_threshold"]` - Index memory threshold.
 * `node["datomic"]["memory_index_max"]` - Index memory maximum.
 * `node["datomic"]["object_cache_max"]` - Object cache maximum.
-* `node["datomic"]["encrypt_channel"]` - Enable SSL between peers and transactor.
+* `node["datomic"]["encrypt_channel"]` - Enable SSL between peers and
+  transactor.
 * `node["datomic"]["write_concurrency"]` - Write concurrency.
-* `node["datomic"]["read_concurrency"]` - Read concurrency (`2x` write concurrency).
+* `node["datomic"]["read_concurrency"]` - Read concurrency (`2x` write
+  concurrency).
 * `node["datomic"]["heartbeat_interval"]` - Transactor heartbeat interval.
 
 ## Recipes
@@ -65,5 +72,5 @@ More Datomic configuration:
 
 ## Usage
 
-Currently supports the 'mem', 'dev', and 'riak' protocols (see
-`node["datomic"]["protocol"]`):
+Currently supports the `mem`, `dev`, and `riak` protocols (see
+`node["datomic"]["protocol"]`).

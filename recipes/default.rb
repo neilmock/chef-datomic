@@ -1,14 +1,16 @@
+node.default["java"]["jdk_version"] = 7
+
 include_recipe "java"
 include_recipe "runit"
 
 version = node["datomic"]["version"]
-license_type = node["datomic"]["license_key"] ? "pro" : "free"
-suggested_url = if node["datomic"]["license_key"]
-  "https://my.datomic.com/repo/com/datomic/datomic-pro/#{version}/datomic-pro-#{version}.zip"
-else
-  "https://my.datomic.com/downloads/free/#{version}"
+license_type = node["datomic"]["license_key"].empty? ? "free" : "pro"
+license_email = node["datomic"]["license_email"]
+license_download_key = node["datomic"]["license_download_key"]
+
+package "unzip" do
+  action :install
 end
-url = node["datomic"]["url"] || suggested_url
 
 group node["datomic"]["username"] do
   action :create
@@ -29,16 +31,11 @@ cache_path = Chef::Config[:file_cache_path]
 basename = "datomic-#{license_type}-#{version}"
 install_dir = "#{node["datomic"]["dir"]}-#{license_type}-#{version}"
 
-user = node["datomic"]["license_email"]
-pass = node["datomic"]["license_download_key"]
-auth = if user && pass
-  "--http-user=#{user} --http-password=#{pass}"
-end
-
 bash "download-datomic" do
   cwd cache_path
   code <<-EOH
-    wget --no-clobber #{auth} #{url} -O #{basename}.zip
+    wget --no-clobber #{Datomic.download_auth(license_email, license_download_key)} \
+         #{Datomic.download_url(license_type, version)} -O #{basename}.zip
     chown #{node["datomic"]["username"]}:#{node["datomic"]["username"]} #{basename}.zip
   EOH
   not_if { ::File.exists?(::File.join(cache_path, "#{basename}.zip")) }
@@ -95,9 +92,11 @@ end
 
 ruby_block "configure-zookeeper-cluster-in-riak" do
   block do
+    ip_address, port = Riak.extract_riak_ip_and_port(node["riak"]["config"]["riak_core"]["http"])
+
     Riak.configure_zookeeper_cluster(
-      node["riak"]["config"]["riak_core"]["http"].keys.first.gsub(/__string_/, ""),
-      node["riak"]["config"]["riak_core"]["http"].values.last,
+      ip_address,
+      port,
       node["datomic"]["riak_bucket"],
       [ "#{node["zookeeper"]["host"]}:#{node["zookeeper"]["port"]}" ]
     )
@@ -105,9 +104,11 @@ ruby_block "configure-zookeeper-cluster-in-riak" do
   notifies :restart, "service[datomic-transactor]", :delayed
 
   only_if do
+    ip_address, port = Riak.extract_riak_ip_and_port(node["riak"]["config"]["riak_core"]["http"])
+
     node["datomic"]["protocol"] == "riak" && !Riak.zookeeper_cluster_configured?(
-      node["riak"]["config"]["riak_core"]["http"].keys.first.gsub(/__string_/, ""),
-      node["riak"]["config"]["riak_core"]["http"].values.last,
+      ip_address,
+      port,
       node["datomic"]["riak_bucket"]
     )
   end

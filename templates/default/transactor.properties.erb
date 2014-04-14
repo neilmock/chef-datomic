@@ -12,31 +12,34 @@ license-key=<%= @license_key %>
 ################################################################
 # See http://docs.datomic.com/storage.html
 
-<% if @riak_host -%>
+<% case @protocol %>
+<% when "riak" %>
+<% unless @riak_host.empty? -%>
 riak-host=<%= @riak_host %>
 <% end -%>
 <% if @riak_port -%>
 riak-port=<%= @riak_port %>
 <% end -%>
-<% if @riak_bucket -%>
+<% unless @riak_bucket.empty? -%>
 riak-bucket=<%= @riak_bucket %>
 <% end -%>
-<% if @riak_interface -%>
+<% unless @riak_interface.empty? -%>
 riak-interface=<%= @riak_interface %>
 <% end -%>
-<% if @sql_url -%>
+<% when "sql" %>
+<% unless @sql_url.empty? -%>
 sql-url=<%= @sql_url %>
 <% end -%>
-<% if @sql_user -%>
+<% unless @sql_user.empty? -%>
 sql-user=<%= @sql_user %>
 <% end -%>
-<% if @sql_password -%>
+<% unless @sql_password.empty? -%>
 sql-password=<%= @sql_password %>
 <% end -%>
-<% if @sql_driver_class -%>
+<% unless @sql_driver_class.empty? -%>
 sql-driver-class=<%= @sql_driver_class %>
 <% end -%>
-
+<% end %>
 
 ################################################################
 # See http://docs.datomic.com/capacity.html
